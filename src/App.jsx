@@ -11,7 +11,7 @@ import Profile from "./Pages/Profile.jsx"
 import More from "./Pages/More.jsx"
 import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom"
 import { useState } from "react";
-import Login from './Pages/Login.jsx'
+
 
 // Messages Pill - Sirf Desktop/Tablet par dikhegi
 function MessagesPill() {
@@ -47,7 +47,6 @@ function App() {
           <div className="w-full">
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
               <Route path="/Reel" element={<Reel />} />
               <Route path="/Msge" element={<Msge />} />
               <Route path="/Search" element={<Search />} />
