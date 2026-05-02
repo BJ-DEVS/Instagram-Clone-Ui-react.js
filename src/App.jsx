@@ -1,5 +1,5 @@
-import { Analytics } from "@vercel/analytics/react" // Yahan 'react' hona chahiye
 
+import { Analytics } from "@vercel/analytics/react"
 import './index.css'
 import Navbar from "./Component/Navbar.jsx"
 import Home from "./Pages/Home.jsx"
@@ -11,10 +11,10 @@ import Notification from "./Pages/Notification.jsx"
 import Create from "./Pages/Create.jsx"
 import Profile from "./Pages/Profile.jsx"
 import More from "./Pages/More.jsx"
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom"
+import Login from "./Pages/Login.jsx" // Aapka banaya hua Login page
+import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate } from "react-router-dom"
 import { useState } from "react";
 
-// Messages Pill component
 function MessagesPill() {
   const navigate = useNavigate();
   return (
@@ -32,7 +32,23 @@ function MessagesPill() {
 
 function App() {
   const [openSearch, setOpenSearch] = useState(false);
+  
+  // 1. Login State: Shuru mein ye 'false' hoga
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  // Agar user login nahi hai, to sirf Login page dikhao
+  if (!isLoggedIn) {
+    return (
+      <Router>
+        <Routes>
+          {/* Login page ko 'setIsLoggedIn' pass kar rahe hain take wo state change kar sake */}
+          <Route path="*" element={<Login onLogin={() => setIsLoggedIn(true)} />} />
+        </Routes>
+      </Router>
+    );
+  }
+
+  // Agar user login hai, to baki ka app dikhao
   return (
     <Router>
       <div className="flex flex-col md:flex-row min-h-screen bg-black">
@@ -52,14 +68,13 @@ function App() {
               <Route path="/Create" element={<Create />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/More" element={<More />} />
+              {/* Agar login ke baad koi dobara /login pe jaye to Home pe bhej do */}
+              <Route path="/Login" element={<Navigate to="/" />} />
             </Routes>
           </div>
 
           <MessagesPill />
-
           <Search open={openSearch} setOpen={setOpenSearch} />
-          
-          {/* ✅ Analytics yahan add kar dein */}
           <Analytics />
           
         </div>
